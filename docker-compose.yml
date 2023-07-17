@@ -1,0 +1,54 @@
+version: "3.9"
+
+services:
+  # php
+  php:
+    container_name: desafio-php
+    build:
+      context: .
+      dockerfile: php.Dockerfile
+    restart: unless-stopped
+    mem_limit: 512m
+    working_dir: /var/www/html
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - desafio-net
+  # mysql
+  mysql:
+    container_name: desafio-mysql
+    image: mysql:8.0.33
+    restart: unless-stopped
+    mem_limit: 2048m
+    environment:
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD_ROOT}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - ./.data/mysql/dbdata:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - desafio-net
+  # phpmyadmin
+  phpmyadmin:
+    container_name: desafio-phpmyadmin
+    image: phpmyadmin:5.2.0
+    restart: unless-stopped
+    mem_limit: 512m
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1
+      - "PMA_HOST:${DB_HOST}"
+      - "PMA_PORT:${DB_PORT}"
+      - "PMA_USER:${DB_USERNAME}"
+      - "PMA_PASSWORD:${DB_PASSWORD}"
+    networks:
+      - desafio-net
+networks:
+  desafio-net:
+    driver: bridge
