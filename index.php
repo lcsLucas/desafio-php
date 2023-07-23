@@ -1,3 +1,5 @@
 <?php
-
-echo "OK";
+/**
+ * Autoload do Composer
+ */
+require_once 'vendor/autoload.php';
