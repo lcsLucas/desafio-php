@@ -49,8 +49,10 @@
             display: flex;
             flex-direction: column;
             flex: 1;
-            margin-left: 3rem;
+            margin: 1.5rem auto 0;
             overflow: auto;
+            width: 100%;
+            max-width: 550px;
         }
 
         .container-profile h2 {
@@ -58,16 +60,17 @@
         }
 
         .profile-avatar {
-            max-width: 70px;
+            max-width: 90px;
             border-radius: 50%;
             object-fit: cover;
         }
 
         .container-repo {
-            margin: 0 0 1rem;
+            margin: 0 auto 1rem;
             border: 1px solid #E1E1E1;
-            padding: .75rem;
-            border-radius: .35rem
+            padding: 0.75rem;
+            border-radius: 0.35rem;
+            width: 100%;
         }
 
         .container-repo a {
@@ -119,35 +122,42 @@
     if (!empty($data)) {
         ?>
 
-        <div class="w-100 ps-4">
-            <img class="profile-avatar" src="<?= $data['avatar'] ?>" alt="">
-        </div>
-
         <div class="container-result">
-            <div>
-                <div>
-                    <h2>
-                        <?= $data['username'] ?>
-                    </h2>
-                    <p>
-                        <?= $data['url'] ?>
-                    </p>
-                </div>
-            </div>
             <div class="container-profile">
 
-                <h2 class="mb-3">Repositórios</h2>
+                <div style="display: flex;">
+                    <div style="margin-right: 1rem;">
+                        <img class="profile-avatar" src="<?= $data['avatar'] ?>" alt="">
+                    </div>
+
+                    <div>
+                        <h2>
+                            <?= $data['username'] ?>
+                        </h2>
+                        <p>
+                            <?= $data['url'] ?>
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <h2 class="mb-3 mt-3">Repositórios</h2>
+
                 <?php
                 foreach ($data['repos'] as $value) {
                     ?>
                     <div class="container-repo">
-                        <div class="d-flex justify-content-between">
+                        <div class="d-flex justify-content-between mb-2">
                             <span>
                                 <a href="<?= $value['html_url'] ?>" target="_blank" rel="noopener noreferrer">
-                                    <?= $value['name'] ?>
+                                    <?= $value['name'] ?> •
+                                    <span title="branch" style="text-transform: capitalize;">
+                                        <?= $value['default_branch'] ?>
+                                    </span>
                                 </a>
                             </span>
-                            <div>
+                            <div style="white-space: nowrap;">
 
                                 <?php
                                 if (!empty($value['language'])) {
@@ -167,16 +177,7 @@
 
                         </div>
                         <div class="container-status">
-                            <span>
-                                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512"
-                                    height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M80 104a24 24 0 1 0 0-48 24 24 0 1 0 0 48zm80-24c0 32.8-19.7 61-48 73.3v87.8c18.8-10.9 40.7-17.1 64-17.1h96c35.3 0 64-28.7 64-64v-6.7C307.7 141 288 112.8 288 80c0-44.2 35.8-80 80-80s80 35.8 80 80c0 32.8-19.7 61-48 73.3V160c0 70.7-57.3 128-128 128H176c-35.3 0-64 28.7-64 64v6.7c28.3 12.3 48 40.5 48 73.3c0 44.2-35.8 80-80 80s-80-35.8-80-80c0-32.8 19.7-61 48-73.3V352 153.3C19.7 141 0 112.8 0 80C0 35.8 35.8 0 80 0s80 35.8 80 80zm232 0a24 24 0 1 0 -48 0 24 24 0 1 0 48 0zM80 456a24 24 0 1 0 0-48 24 24 0 1 0 0 48z">
-                                    </path>
-                                </svg>
-                                <?= $value['default_branch'] ?>
-                            </span>
-                            <span>
+                            <span title="created">
                                 <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em"
                                     width="1em" xmlns="http://www.w3.org/2000/svg">
                                     <path fill="none" d="M0 0h24v24H0V0z"></path>
@@ -186,7 +187,7 @@
                                 </svg>
                                 <?= date('d/m/Y H:i', strtotime($value['created_at'])) ?>
                             </span>
-                            <span>
+                            <span title="updated">
                                 <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em"
                                     width="1em" xmlns="http://www.w3.org/2000/svg">
                                     <path fill="none" stroke="#000" stroke-width="2"
@@ -195,7 +196,7 @@
                                 </svg>
                                 <?= date('d/m/Y H:i', strtotime($value['updated_at'])) ?>
                             </span>
-                            <span>
+                            <span title="stars">
                                 <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" height="1em"
                                     width="1em" xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -204,14 +205,14 @@
                                 </svg>
                                 <?= $value['stargazers_count'] ?>
                             </span>
-                            <span>
-                                <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16"
-                                    data-view-component="true" class="octicon octicon-eye mr-2">
+                            <span title="forks">
+                                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512"
+                                    height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                                     <path
-                                        d="M8 2c1.981 0 3.671.992 4.933 2.078 1.27 1.091 2.187 2.345 2.637 3.023a1.62 1.62 0 0 1 0 1.798c-.45.678-1.367 1.932-2.637 3.023C11.67 13.008 9.981 14 8 14c-1.981 0-3.671-.992-4.933-2.078C1.797 10.83.88 9.576.43 8.898a1.62 1.62 0 0 1 0-1.798c.45-.677 1.367-1.931 2.637-3.022C4.33 2.992 6.019 2 8 2ZM1.679 7.932a.12.12 0 0 0 0 .136c.411.622 1.241 1.75 2.366 2.717C5.176 11.758 6.527 12.5 8 12.5c1.473 0 2.825-.742 3.955-1.715 1.124-.967 1.954-2.096 2.366-2.717a.12.12 0 0 0 0-.136c-.412-.621-1.242-1.75-2.366-2.717C10.824 4.242 9.473 3.5 8 3.5c-1.473 0-2.825.742-3.955 1.715-1.124.967-1.954 2.096-2.366 2.717ZM8 10a2 2 0 1 1-.001-3.999A2 2 0 0 1 8 10Z">
+                                        d="M80 104a24 24 0 1 0 0-48 24 24 0 1 0 0 48zm80-24c0 32.8-19.7 61-48 73.3v87.8c18.8-10.9 40.7-17.1 64-17.1h96c35.3 0 64-28.7 64-64v-6.7C307.7 141 288 112.8 288 80c0-44.2 35.8-80 80-80s80 35.8 80 80c0 32.8-19.7 61-48 73.3V160c0 70.7-57.3 128-128 128H176c-35.3 0-64 28.7-64 64v6.7c28.3 12.3 48 40.5 48 73.3c0 44.2-35.8 80-80 80s-80-35.8-80-80c0-32.8 19.7-61 48-73.3V352 153.3C19.7 141 0 112.8 0 80C0 35.8 35.8 0 80 0s80 35.8 80 80zm232 0a24 24 0 1 0 -48 0 24 24 0 1 0 48 0zM80 456a24 24 0 1 0 0-48 24 24 0 1 0 0 48z">
                                     </path>
                                 </svg>
-                                <?= $value['watchers_count'] ?>
+                                <?= $value['forks'] ?>
                             </span>
 
                         </div>

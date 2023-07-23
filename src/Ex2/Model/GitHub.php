@@ -54,6 +54,7 @@ class GitHub extends Request
                     'watchers_count' => $value['watchers_count'],
                     'language' => $value['language'],
                     'has_issues' => $value['has_issues'],
+                    'forks' => $value['forks'],
                     'forks_count' => $value['forks_count'],
                     'archived' => $value['archived'],
                     'visibility' => $value['visibility'],
