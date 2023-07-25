@@ -35,5 +35,8 @@ RUN docker-php-ext-configure zip --with-libzip;
 RUN docker-php-ext-configure opcache
 RUN docker-php-ext-install opcache
 
+RUN find . -type f | xargs -I{} chmod -v 644 {} && \
+    find . -type d | xargs -I{} chmod -v 755 {};
+
 # Composer#Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer

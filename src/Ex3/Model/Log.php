@@ -2,12 +2,8 @@
 
 namespace Ex3\Model;
 
-class Retorno
+class Log
 {
-    /*private $codigo;
-    private $tipo;//tipo 1 = Sucesso, tipo 2 = Banco, tipo 3 = Erro Usuario
-    private $mensagem;*/
-
     private $mensagem;
     private $exibir;
     private $status;
@@ -29,12 +25,16 @@ class Retorno
     }
 
 
-    public function setRetorno($mensagem, $exibir, $status, $extra = array())
+    public function setLog($mensagem, $exibir, $status, $extra = array())
     {
         $this->mensagem = $mensagem;
         $this->exibir = $exibir;
         $this->status = $status;
         $this->extra = $extra;
+
+        if (!$exibir)
+            error_log('[' . date('Y-m-d H:i:s') . '] ' . $mensagem . PHP_EOL, 3, __DIR__ . '/../../../.data/exercicio-3/' . 'error-etl.log');
+
     }
 
     public function setExtra($extra)
@@ -42,7 +42,7 @@ class Retorno
         $this->extra = $extra;
     }
 
-    public function getRetorno()
+    public function getLog()
     {
         return array(
             'status' => $this->status,

@@ -2,7 +2,7 @@
 
 namespace Ex3\Model;
 
-class Banco
+class Banco extends Log
 {
     /**
      * constantes definida no config.php, carregado no inicio.
@@ -10,8 +10,6 @@ class Banco
     private $usuario;
     private $senha;
     private $dsn;
-    private $retorno;
-
     private $con;
 
     public function __construct()
@@ -19,8 +17,6 @@ class Banco
         $this->usuario = $_ENV['DB_USERNAME'];
         $this->senha = $_ENV['DB_PASSWORD'];
         $this->dsn = $_ENV['DB_CONNECTION'] . ':host=' . $_ENV['DB_HOST'] . ';port=' . $_ENV['DB_PORT'] . ';dbname=' . $_ENV['DB_DATABASE'] . ';charset=utf8';
-
-        $this->retorno = new Retorno();
     }
 
     public function conectar($persist = false)
@@ -41,7 +37,7 @@ class Banco
 
                 return true;
             } catch (\PDOException $e) {
-                $this->setRetorno('Erro Ao Conectar Com o Banco de Dados | ' . $e->getMessage(), false, false);
+                $this->setLog('DATABASE | ' . $e->getMessage(), false, false);
                 return null;
             }
 
@@ -79,25 +75,4 @@ class Banco
     {
         return $this->con = null;
     }
-
-    /**
-     * define o retorno da requisição
-     * @param  string $mensagem = mensagem do retorno
-     * @param  boolean $flag_exibir = flag que diz se é pra ser mostrado ao usuario a mensagem
-     * @param  boolean $flag_status = flag que diz se o retono é um erro ou não
-     * @return void
-     */
-    public function setRetorno($mensagem, $flag_exibir, $flag_status)
-    {
-        $this->retorno->setRetorno($mensagem, $flag_exibir, $flag_status);
-
-        if (!$flag_exibir)
-            error_log('[' . date('Y-m-d H:i:s') . '] ' . $mensagem . '\n', 3, __DIR__ . '/../' . 'error-etl.log');
-    }
-
-    public function getRetorno()
-    {
-        return $this->retorno->getRetorno();
-    }
-
 }

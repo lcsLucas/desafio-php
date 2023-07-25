@@ -9,6 +9,6 @@ auth.json
 npm-debug.log
 yarn-error.log
 /.idea
-/.data
+/.data/**/
 /_arquivos
 /server
