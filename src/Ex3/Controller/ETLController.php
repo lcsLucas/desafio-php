@@ -39,7 +39,7 @@ class ETLController
 
                     $model = new ETL();
 
-                    $data = $model->paginateOldOrcsByDate($start_registry, $qtde_registry);
+                    $data = $model->paginateLargeOrcsByName($start_registry, $qtde_registry);
                     $total_registry = $model->totalLargeOrcsByName();
 
                     break;
