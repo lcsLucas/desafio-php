@@ -32,8 +32,7 @@ class Log
         $this->status = $status;
         $this->extra = $extra;
 
-        if (!$exibir)
-            error_log('[' . date('Y-m-d H:i:s') . '] ' . $mensagem . PHP_EOL, 3, __DIR__ . '/../../../.data/exercicio-3/' . 'error-etl.log');
+        error_log('[' . date('Y-m-d H:i:s') . '] ' . $mensagem . PHP_EOL, 3, ABSPATH . '/.data/exercicio-3/' . 'error-etl.log');
 
     }
 

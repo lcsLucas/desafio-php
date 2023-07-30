@@ -5,3 +5,17 @@
 1. Organizações com mais de 5000 funcionários ordenadas por nome.
 2. Organizações fundadas antes dos anos 2000 com menos de 1000 funcionários ordenadas por data de fundação.
 3. Quantidade organizações e funcionários, agrupados por insdustria e pais, e ordenadas por industria.
+
+Exemplo:
+
+```
+Index: 1,
+Organization Id: 8cC6B5992C0309c
+Name: Acevedo LLC
+Website: https://www.donovan.com/
+Country: Holy See (Vatican City State)
+Description: Multi-channeled bottom-line core
+Founded: 2019
+Industry: Graphic Design / Web Design
+Number of employees: 7070
+```

@@ -22,6 +22,7 @@ services:
     image: mysql:8.0.33
     restart: unless-stopped
     mem_limit: 2048m
+    command: --default-authentication-plugin=mysql_native_password
     environment:
       - MYSQL_DATABASE=${DB_DATABASE}
       - MYSQL_ROOT_PASSWORD=${DB_PASSWORD_ROOT}

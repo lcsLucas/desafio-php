@@ -12,44 +12,41 @@ class Banco extends Log
     private $dsn;
     private $con;
 
-    public function __construct()
+    private static $instance;
+
+    private function __construct($persist = false)
     {
         $this->usuario = $_ENV['DB_USERNAME'];
         $this->senha = $_ENV['DB_PASSWORD'];
         $this->dsn = $_ENV['DB_CONNECTION'] . ':host=' . $_ENV['DB_HOST'] . ';port=' . $_ENV['DB_PORT'] . ';dbname=' . $_ENV['DB_DATABASE'] . ';charset=utf8';
+
+        try {
+            if ($persist):
+                $this->con = new \PDO($this->dsn, $this->usuario, $this->senha, array(\PDO::ATTR_PERSISTENT => TRUE));
+            else:
+                $this->con = new \PDO($this->dsn, $this->usuario, $this->senha);
+            endif;
+
+            $this->con->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            $this->con->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
+
+        } catch (\PDOException $e) {
+            $this->setLog('DATABASE | ' . $e->getFile() . ":" . $e->getLine() . ' | ' . $e->getMessage(), false, false);
+        }
+
     }
 
     public function conectar($persist = false)
     {
-        if (empty($this->getCon())):
+        if (!self::$instance)
+            self::$instance = new Banco();
 
-            try {
-                // verifica se a conexao deve ser persistente ou nao. Util quando deve ser feito varias operações
-                // em uma mesma conexao aberta. Ex: varias transações de uma fez e uma entrelaçada na outra
-                if ($persist):
-                    $this->con = new \PDO($this->dsn, $this->usuario, $this->senha, array(\PDO::ATTR_PERSISTENT => TRUE));
-                else:
-                    $this->con = new \PDO($this->dsn, $this->usuario, $this->senha);
-                endif;
-
-                $this->con->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-                $this->con->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
-
-                return true;
-            } catch (\PDOException $e) {
-                $this->setLog('DATABASE | ' . $e->getMessage(), false, false);
-                return null;
-            }
-
-        else:
-            return true;
-
-        endif;
+        return !empty(self::$instance->getCon());
     }
 
-    public function getCon(): ?\PDO
+    public static function getCon(): ?\PDO
     {
-        return $this->con;
+        return self::$instance->con;
     }
 
     public function beginTransaction()
