@@ -2,6 +2,7 @@
     "name": "root/html",
     "autoload": {
         "psr-4": {
+			"Ex1\\" : "src/Ex1",
 			"Ex2\\" : "src/Ex2",
 			"Ex3\\" : "src/Ex3"
         }

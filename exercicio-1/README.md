@@ -1,0 +1,3 @@
+## Exercício 1: Autenticação de Usuário
+
+> Desenvolva um sistema de autenticação de usuário em PHP utilizando os conceitos de criptografia de senha. Crie um formulário de login que valide as credenciais do usuário em um banco de dados e, se as credenciais forem válidas, redirecione o usuário para uma página de boas-vindas. Implemente também o registro de novos usuários, com a devida criptografia de senha.

@@ -9,8 +9,9 @@ class ETLDao extends Banco
 
     protected function migrateCreateTable()
     {
-        $sqlCreate =
-            "CREATE TABLE IF NOT EXISTS `organizations` (
+        try {
+            $sqlCreate =
+                "CREATE TABLE IF NOT EXISTS `organizations` (
                 `id` INT UNSIGNED NOT NULL,
                 `identifier` VARCHAR(30) NOT NULL,
                 `name` VARCHAR(150) NOT NULL,
@@ -23,13 +24,16 @@ class ETLDao extends Banco
                 PRIMARY KEY (`id`))
               ENGINE = InnoDB;";
 
-        if ($this->conectar()) {
-            $st = $this->getCon()->prepare($sqlCreate);
-            return $st->execute();
+            if ($this->conectar()) {
+                $st = $this->getCon()->prepare($sqlCreate);
+                return $st->execute();
+            }
+        } catch (\Throwable $e) {
+            $this->setLog("DATABASE | " . $e->getMessage(), false, false);
+
         }
 
         return false;
-
     }
 
     protected function insertBatchDAO($batch)
@@ -56,18 +60,23 @@ class ETLDao extends Banco
         $fields = array_keys($prepare_values[0]);
         $treated_values = '(' . implode(', ', array_fill(0, count($fields), '?')) . ')';
 
-        $sqlImport = "INSERT INTO organizations (" . implode(', ', $fields) . ") VALUES " . implode(', ', array_fill(0, count($prepare_values), $treated_values)) . " ON DUPLICATE KEY UPDATE " . implode(', ', $update_fields);
+        try {
+            $sqlImport = "INSERT INTO organizations (" . implode(', ', $fields) . ") VALUES " . implode(', ', array_fill(0, count($prepare_values), $treated_values)) . " ON DUPLICATE KEY UPDATE " . implode(', ', $update_fields);
 
-        if ($this->conectar()) {
-            $st = $this->getCon()->prepare($sqlImport);
 
-            $registry_values = array();
+            if ($this->conectar()) {
+                $st = $this->getCon()->prepare($sqlImport);
 
-            foreach ($prepare_values as $record) {
-                $registry_values = array_merge($registry_values, array_values($record));
+                $registry_values = array();
+
+                foreach ($prepare_values as $record) {
+                    $registry_values = array_merge($registry_values, array_values($record));
+                }
+
+                return $st->execute($registry_values);
             }
-
-            return $st->execute($registry_values);
+        } catch (\Throwable $e) {
+            $this->setLog("DATABASE | " . $e->getMessage(), false, false);
         }
 
         return false;
