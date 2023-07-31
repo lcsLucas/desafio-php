@@ -10,5 +10,6 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.data/**/
+!/.data/exercicio-3
 /_arquivos
 /server

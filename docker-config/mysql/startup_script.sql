@@ -2,8 +2,6 @@ ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';
 ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'root';
 /* ALTER USER 'usu_desafio'@'%' IDENTIFIED WITH mysql_native_password BY 'secret'; */
 
-USE db_desafio;
-
 CREATE TABLE IF NOT EXISTS `organizations` (
   `id` INT UNSIGNED NOT NULL,
   `identifier` VARCHAR(30) NOT NULL,
