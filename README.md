@@ -1,8 +1,43 @@
+# Ponta-Pé Inicial
+
+Duplicar o arquivo `.env-template` para `.env` e definir as variáveis de ambiente para conexão com o banco de dados.
+
+> Lembrando se você estiver executando no Docker, você pode definir os valores das variáveis de maneira aleatória, pois os containers serão criados com esses valores que você definiu.
+
+```bash
+cp .env-template .env
+```
+
+Executar o comando:
+
+```bash
+docker-compose up -d
+```
+
+Entrar dentro do container
+
+```bash
+docker-compose exec php bash
+```
+
+Baixar as dependências do composer dentro do container:
+
+```bash
+composer install
+```
+
+Abrir as páginas dos desafios no navegador:
+
+- http://localhost/exercicio-1/
+- http://localhost/exercicio-2/
+- http://localhost/exercicio-3/
+- http://localhost/exercicio-4/
+
 # Desafio PHP - Desenvolvedor(a) Back-end
 
 > Para o desafio deve ser utilizado PHP 7.4 ou superior
 
-> Para banco de dados, deve ser utilizado MySQL 8.*
+> Para banco de dados, deve ser utilizado MySQL 8.\*
 
 > O código deve ser disponibilizado em um repositório público no GitHub, e enviado o link do repositório para desafio@ipag.com.br
 
