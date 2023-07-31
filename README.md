@@ -2,6 +2,10 @@
 
 Duplicar o arquivo `.env-template` para `.env` e definir as variáveis de ambiente para conexão com o banco de dados.
 
+```bash
+cp .env-template .env
+```
+
 > Lembrando se você estiver executando no Docker, você pode definir os valores das variáveis de maneira aleatória, pois os containers serão criados com esses valores que você definiu.
 
 > Exemplo para utilizar no arquivo .env com desenvolvimento com Docker:
@@ -16,34 +20,34 @@ DB_PASSWORD="{{GERAR_SENHA}}"
 DB_PASSWORD_ROOT="{{GERAR_SENHA}}"
 ```
 
-```bash
-cp .env-template .env
-```
-
-Executar o comando:
+Subir os containers com o comando:
 
 ```bash
 docker-compose up -d
 ```
 
-Entrar dentro do container
+Acessar o container com o comando:
 
 ```bash
 docker-compose exec php bash
 ```
 
-Baixar as dependências do composer dentro do container:
+Dentro do container execute o comando para baixar as dependências do composer:
 
 ```bash
 composer install
 ```
 
-Abrir as páginas dos desafios no navegador:
+Se seguiu os passos acima sem nenhum problema, então já está tudo certo para executar o projeto com o Docker 👍.
+
+Acesse as páginas dos desafios no navegador:
 
 - http://localhost/exercicio-1/
 - http://localhost/exercicio-2/
 - http://localhost/exercicio-3/
 - http://localhost/exercicio-4/
+
+##### [README do repositório Forked]
 
 # Desafio PHP - Desenvolvedor(a) Back-end
 
