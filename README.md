@@ -4,6 +4,18 @@ Duplicar o arquivo `.env-template` para `.env` e definir as variáveis de ambien
 
 > Lembrando se você estiver executando no Docker, você pode definir os valores das variáveis de maneira aleatória, pois os containers serão criados com esses valores que você definiu.
 
+> Exemplo para utilizar no arquivo .env com desenvolvimento com Docker:
+
+```bash
+DB_CONNECTION=mysql
+DB_HOST=mysql
+DB_PORT=3306
+DB_DATABASE=db_desafios
+DB_USERNAME=usu_desafios
+DB_PASSWORD="{{GERAR_SENHA}}"
+DB_PASSWORD_ROOT="{{GERAR_SENHA}}"
+```
+
 ```bash
 cp .env-template .env
 ```
